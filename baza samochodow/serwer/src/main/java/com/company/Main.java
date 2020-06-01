@@ -16,7 +16,7 @@ public class Main {
         DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
         String URL = "jdbc:oracle:thin:@localhost:1521:xe";
         String USER = "SYSTEM";
-        String PASS = "nosorozec123";
+        String PASS = "test";
         while (true) {
             Socket socket = serverSocket.accept();
             Connection connection = DriverManager.getConnection(URL,USER,PASS);
