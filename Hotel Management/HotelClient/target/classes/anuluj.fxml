@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane id="gridpane" alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="sample.ControllerAnuluj" stylesheets="@styles.css">
+          fx:controller="sample.AnulujController" stylesheets="@styles.css">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>

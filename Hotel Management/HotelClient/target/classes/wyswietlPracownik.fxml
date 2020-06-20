@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.WyswietlPracownikController">
+    <center>
+        <TableView fx:id="tabela" BorderPane.alignment="CENTER">
+
+            <columns>
+                <TableColumn fx:id="id" prefWidth="45.0" text="id" />
+                <TableColumn fx:id="imie" prefWidth="75.0" text="imię" />
+                <TableColumn fx:id="nazwisko" prefWidth="120.0" text="nazwisko" />
+                <TableColumn fx:id="stanowisko" prefWidth="120.0" text="stanowisko" />
+                <TableColumn fx:id="pensja" prefWidth="80.0" text="pensja" />
+
+
+            </columns>
+
+        </TableView>
+    </center>
+</BorderPane>

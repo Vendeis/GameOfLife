@@ -1,16 +1,12 @@
 package com.company;
 
-import javafx.collections.ObservableList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.*;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -18,10 +14,12 @@ public class Watek extends Thread {
     private Socket socket;
     private Connection connection;
     private ArrayList<Rezerwacja> list;
+    private ArrayList<Pracownik> list2;
     public Watek(Socket socket, Connection connection){
         this.socket = socket;
         this.connection = connection;
         list = new ArrayList<>();
+        list2 = new ArrayList<>();
     }
 
     @Override
@@ -33,9 +31,9 @@ public class Watek extends Thread {
             //System.out.println(input.toString());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             JSONObject output = new JSONObject();
-
-            if(input.has("wyswietl")){
-                output = wyswietl();
+            
+            if(input.has("wyswietlRezerwacja")){
+                output = wyswietl(input);
             }
             else if(input.has("rezerwuj")){
                 output = rezerwuj(input);
@@ -46,6 +44,16 @@ public class Watek extends Thread {
             else if(input.has("wyszukaj")){
                 output = wyszukaj(input);
             }
+            else if(input.has("wyswietlPracownik")){
+                output = wyswietl(input);
+            }
+            else if(input.has("dodaj")){
+                output = dodaj(input);
+                
+            }
+            else if(input.has("usun")){
+                output = usun(input);
+            }
             writer.write(output.toString());
             writer.newLine();
             writer.flush();
@@ -53,6 +61,46 @@ public class Watek extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private JSONObject usun(JSONObject input) {
+        int id = input.getInt("usun");
+        JSONObject object = new JSONObject();
+
+        try {
+            Statement statement = connection.createStatement();
+            int x = statement.executeUpdate("DELETE FROM pracownicy WHERE ID = " + id);
+            if(x<1) {
+                object.put("blad",id);
+                System.out.println("brak pracownika o id " + id);
+            }
+            else {
+                System.out.println("usunieto pracownika o id " + id);
+                object.put("sukces", id);
+            }
+        }
+        catch (SQLException e){e.printStackTrace();}
+        return object;
+    }
+
+    private JSONObject dodaj(JSONObject input) {
+        JSONObject object = new JSONObject(input.getJSONObject("dodaj").toString());
+        JSONObject object1 = new JSONObject();
+        try {
+            pobierzDaneDoListy();
+            Statement statement = connection.createStatement();
+            String s = "INSERT INTO pracownicy(IMIE,NAZWISKO,STANOWISKO,PENSJA)" +
+                    " VALUES('" + object.getString("imie") + "','" +
+                    object.getString("nazwisko") + "','" + object.getString("stanowisko")
+                    + "',"  +  object.getInt("pensja") + ")";
+            statement.executeUpdate(s);
+            object1.put("sukces","sukces");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            object1.put("blad","blad");
+        }
+        return object1;
     }
 
     private JSONObject wyszukaj(JSONObject input) {
@@ -170,12 +218,20 @@ public class Watek extends Thread {
         return object1;
     }
 
-    private JSONObject wyswietl()  {
+    private JSONObject wyswietl(JSONObject input)  {
         JSONObject object = new JSONObject();
         try {
-            pobierzDaneDoListy();
-            JSONArray array = new JSONArray(list);
-            object.put("wyswietl",array);
+            if(input.has("wyswietlRezerwacja")) {
+                pobierzDaneDoListy();
+                JSONArray array = new JSONArray(list);
+                object.put("wyswietl",array);
+            }
+            else if(input.has("wyswietlPracownik")){
+                pobierzDaneDoListy2();
+                JSONArray array = new JSONArray(list2);
+                object.put("wyswietl",array);
+            }
+
         }
         catch (Exception e){ e.printStackTrace();}
 
@@ -184,6 +240,7 @@ public class Watek extends Thread {
 
     private void pobierzDaneDoListy() throws SQLException{
         Statement statement = connection.createStatement();
+
         String s = "SELECT * FROM rezerwacje";
         ResultSet resultSet = statement.executeQuery(s);
         while (resultSet.next()) {
@@ -197,6 +254,20 @@ public class Watek extends Thread {
             list.add(new Rezerwacja(id,imie,nazwisko,nr_pokoju,data_przyjazdu,data_wyjazdu,parking));
         }
     }
+    private void pobierzDaneDoListy2() throws SQLException {
+        Statement statement = connection.createStatement();
+        String s = "SELECT * FROM pracownicy";
+        ResultSet resultSet = statement.executeQuery(s);
+        while (resultSet.next()) {
+            int id = resultSet.getInt(1);
+            String imie = resultSet.getString(2);
+            String nazwisko = resultSet.getString(3);
+            String stanowisko = resultSet.getString(4);
+            int pensja = resultSet.getInt(5);
+            list2.add(new Pracownik(id,imie,nazwisko,stanowisko,pensja));
+        }
+    }
+
 }
 
 
