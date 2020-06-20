@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane id="gridpane" alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="sample.ControllerWyszukaj" stylesheets="@styles.css">
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <AnchorPane prefHeight="84.0" prefWidth="421.0">
+            <children>
+                <TextField fx:id="textField" layoutX="65.0" layoutY="42.0" />
+                <Label layoutX="81.0" layoutY="14.0" text="wprowadz id rezerwacji" />
+                <Button layoutX="286.0" layoutY="42.0" mnemonicParsing="false" onAction="#wyszukaj" text="zatwierdz" />
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerWyswietl">
+    <center>
+        <TableView fx:id="tabela" prefHeight="400.0" prefWidth="605.0" BorderPane.alignment="CENTER">
+
+            <columns>
+                <TableColumn fx:id="id" prefWidth="45.0" text="id" />
+                <TableColumn fx:id="imie" prefWidth="75.0" text="imię" />
+                <TableColumn fx:id="nazwisko" prefWidth="120.0" text="nazwisko" />
+                <TableColumn fx:id="nr_pokoju" prefWidth="75.0" text="nr pokoju" />
+                <TableColumn fx:id="data_przyjazdu" prefWidth="120.0" text="data przyjazdu" />
+                <TableColumn fx:id="data_wyjazdu" prefWidth="120.0" text="data wyjazdu" />
+                <TableColumn fx:id="parking" prefWidth="61.0" text="parking" />
+
+            </columns>
+
+        </TableView>
+    </center>
+</BorderPane>
